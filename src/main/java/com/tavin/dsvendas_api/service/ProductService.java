@@ -1,13 +1,12 @@
 package com.tavin.dsvendas_api.service;
 
-import com.tavin.dsvendas_api.infra.dto.ProductRequestDto;
-import com.tavin.dsvendas_api.infra.dto.ProductResponseDto;
 import com.tavin.dsvendas_api.infra.mappers.ProductMapper;
 import com.tavin.dsvendas_api.infra.models.ProductModel;
 import com.tavin.dsvendas_api.repositories.product.ProductRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -20,4 +19,18 @@ public class ProductService {
         productRepository.save(productModel);
     }
 
+    public void UpdateProduct(ProductModel productModel) {
+        if (productModel.getId() == null) {
+            throw new IllegalArgumentException("id is required");
+        }
+        productRepository.save(productModel);
+    }
+
+    public List<ProductModel> listProducts() {
+        return productRepository.findAll();
+    }
+
+    public void deleteProduct(Long id) {
+        productRepository.deleteById(id);
+    }
 }
