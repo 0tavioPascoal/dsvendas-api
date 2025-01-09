@@ -2,30 +2,27 @@ package com.tavin.dsvendas_api.controllers;
 
 import com.tavin.dsvendas_api.infra.dto.ProductRequestDto;
 import com.tavin.dsvendas_api.infra.dto.ProductResponseDto;
+import com.tavin.dsvendas_api.infra.mappers.ProductMapper;
 import com.tavin.dsvendas_api.infra.models.ProductModel;
 import com.tavin.dsvendas_api.service.ProductService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/products")
+@RequiredArgsConstructor
+@CrossOrigin("*")
 public class ProductController {
 
-    @Autowired
-    private ProductService productService;
+
+    private final ProductService productService;
+    private final ProductMapper productMapper;
 
     @PostMapping
-    public ResponseEntity<ProductModel> createProduct(@RequestBody ProductRequestDto dto) {
-       ProductModel p = new ProductModel();
-        p.setDescription(dto.description());
-        p.setName(dto.name());
-        p.setPrice(dto.price());
-        p.setSku(dto.sku());
+    public ResponseEntity<ProductResponseDto> createProduct(@RequestBody ProductRequestDto dto) {
+        ProductModel p = productMapper.productModelMapper(dto);
         productService.save(p);
-        return ResponseEntity.ok(p);
+        return ResponseEntity.ok().body(productMapper.productResponseDto(p));
     }
 }
