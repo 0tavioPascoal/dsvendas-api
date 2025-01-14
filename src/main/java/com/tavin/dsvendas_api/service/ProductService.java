@@ -21,9 +21,6 @@ public class ProductService {
     }
 
     public void UpdateProduct(ProductModel productModel) {
-        if (productModel.getId() == null) {
-            throw new IllegalArgumentException("id is required");
-        }
         productRepository.save(productModel);
     }
 

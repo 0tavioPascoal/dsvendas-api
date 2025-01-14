@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/products")
 @RequiredArgsConstructor
-@CrossOrigin("*")
+@CrossOrigin(origins = "*")
 public class ProductController {
 
 
@@ -31,8 +31,8 @@ public class ProductController {
         return ResponseEntity.ok().body(productMapper.productResponseDto(p));
     }
 
-    @PutMapping()
-    public ResponseEntity<Object> updateProduct(@RequestParam Long id,
+    @PutMapping("{id}")
+    public ResponseEntity<Object> updateProduct(@PathVariable Long id,
                                                 @RequestBody ProductRequestDto dto) {
         return productRepository.findById(id)
                 .map(ProductModel -> {
