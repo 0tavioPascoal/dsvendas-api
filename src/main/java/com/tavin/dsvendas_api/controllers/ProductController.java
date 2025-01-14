@@ -53,6 +53,14 @@ public class ProductController {
                 .collect(Collectors.toList());
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<ProductResponseDto> getProduct(@PathVariable Long id) {
+        return productService.findProductById(id).map(product -> {
+            var dto = productMapper.productResponseDto(product);
+            return ResponseEntity.ok().body(dto);
+        }).orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
     @DeleteMapping()
     public ResponseEntity<Object> deleteProduct(@RequestParam Long id) {
         if(productRepository.existsById(id)) {
