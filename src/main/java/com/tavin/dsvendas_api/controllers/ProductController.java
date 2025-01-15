@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/products")
 @RequiredArgsConstructor
-@CrossOrigin(origins = "*")
+@CrossOrigin("*")
 public class ProductController {
 
 
@@ -62,7 +62,7 @@ public class ProductController {
     }
 
     @DeleteMapping()
-    public ResponseEntity<Object> deleteProduct(@RequestParam Long id) {
+    public ResponseEntity<Void> deleteProduct(@RequestParam Long id) {
         if(productRepository.existsById(id)) {
             productService.deleteProduct(id);
             return ResponseEntity.noContent().build();

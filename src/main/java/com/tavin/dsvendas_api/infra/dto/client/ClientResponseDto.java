@@ -9,5 +9,7 @@ public record ClientResponseDto(UUID id,
                                 String phone,
                                 String cpf,
                                 String address,
-                                LocalDate birthday) {
+                                LocalDate birthday,
+                                LocalDate created,
+                                LocalDate modified) {
 }
