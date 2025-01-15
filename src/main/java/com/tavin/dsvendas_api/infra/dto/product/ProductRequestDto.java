@@ -1,4 +1,4 @@
-package com.tavin.dsvendas_api.infra.dto;
+package com.tavin.dsvendas_api.infra.dto.product;
 
 import java.math.BigDecimal;
 

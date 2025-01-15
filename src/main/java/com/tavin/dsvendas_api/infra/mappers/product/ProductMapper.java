@@ -1,7 +1,7 @@
-package com.tavin.dsvendas_api.infra.mappers;
+package com.tavin.dsvendas_api.infra.mappers.product;
 
-import com.tavin.dsvendas_api.infra.dto.ProductRequestDto;
-import com.tavin.dsvendas_api.infra.dto.ProductResponseDto;
+import com.tavin.dsvendas_api.infra.dto.product.ProductRequestDto;
+import com.tavin.dsvendas_api.infra.dto.product.ProductResponseDto;
 import com.tavin.dsvendas_api.infra.models.ProductModel;
 import org.mapstruct.Mapper;
 

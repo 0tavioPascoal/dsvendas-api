@@ -1,11 +1,11 @@
 package com.tavin.dsvendas_api.controllers;
 
-import com.tavin.dsvendas_api.infra.dto.ProductRequestDto;
-import com.tavin.dsvendas_api.infra.dto.ProductResponseDto;
-import com.tavin.dsvendas_api.infra.mappers.ProductMapper;
+import com.tavin.dsvendas_api.infra.dto.product.ProductRequestDto;
+import com.tavin.dsvendas_api.infra.dto.product.ProductResponseDto;
+import com.tavin.dsvendas_api.infra.mappers.product.ProductMapper;
 import com.tavin.dsvendas_api.infra.models.ProductModel;
 import com.tavin.dsvendas_api.repositories.product.ProductRepository;
-import com.tavin.dsvendas_api.service.ProductService;
+import com.tavin.dsvendas_api.service.product.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

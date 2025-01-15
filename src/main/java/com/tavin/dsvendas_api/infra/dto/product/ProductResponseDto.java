@@ -1,6 +1,4 @@
-package com.tavin.dsvendas_api.infra.dto;
-
-import org.springframework.cglib.core.Local;
+package com.tavin.dsvendas_api.infra.dto.product;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;

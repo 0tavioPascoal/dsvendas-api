@@ -1,6 +1,6 @@
-package com.tavin.dsvendas_api.service;
+package com.tavin.dsvendas_api.service.product;
 
-import com.tavin.dsvendas_api.infra.mappers.ProductMapper;
+import com.tavin.dsvendas_api.infra.mappers.product.ProductMapper;
 import com.tavin.dsvendas_api.infra.models.ProductModel;
 import com.tavin.dsvendas_api.repositories.product.ProductRepository;
 import lombok.RequiredArgsConstructor;
