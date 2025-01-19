@@ -8,6 +8,8 @@ import com.tavin.dsvendas_api.repositories.client.ClientRepository;
 import com.tavin.dsvendas_api.service.client.ClientService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,6 +25,7 @@ public class ClientController {
 
     private final ClientService clientService;
     private final ClientMapper clientMapper;
+    private final ClientRepository clientRepository;
 
     @PostMapping()
     public ResponseEntity<ClientResponseDto> addClient(@RequestBody ClientRequestDto clientRequestDto) {
@@ -30,20 +33,21 @@ public class ClientController {
         clientService.saveClient(client);
         return ResponseEntity.ok().body(clientMapper.ClientResponseMapper(client));
     }
-
-    @GetMapping()
-    public List<ClientResponseDto> getClients() {
-        return clientService.findAllClients().stream()
-                .map(clientMapper::ClientResponseMapper)
-                .collect(Collectors.toList());
-    }
-
+    
     @GetMapping("/{id}")
     public ResponseEntity<ClientResponseDto> getClient(@RequestParam String id) {
         return clientService.findByClientForId(UUID.fromString(id))
                 .map(client -> {
                     return ResponseEntity.ok().body(clientMapper.ClientResponseMapper(client));
                 }).orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+    @GetMapping()
+    public Page<ClientResponseDto> getClients(@RequestParam(value = "name", defaultValue = "", required = false) String name,
+                                              @RequestParam(value = "cpf", required = false, defaultValue = "") String cpf,
+                                              Pageable pageable) {
+        return  clientRepository.findByCpfAndName("%" + name +"%", "%" + cpf + "%", pageable)
+                .map(clientMapper::ClientResponseMapper);
     }
 
     @DeleteMapping()

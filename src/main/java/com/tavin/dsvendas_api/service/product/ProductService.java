@@ -1,9 +1,11 @@
 package com.tavin.dsvendas_api.service.product;
 
 import com.tavin.dsvendas_api.infra.mappers.product.ProductMapper;
+import com.tavin.dsvendas_api.infra.models.ClientModel;
 import com.tavin.dsvendas_api.infra.models.ProductModel;
 import com.tavin.dsvendas_api.repositories.product.ProductRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -35,4 +37,7 @@ public class ProductService {
     public Optional<ProductModel> findProductById(Long id) {
         return productRepository.findById(id);
     }
+
+
+
 }

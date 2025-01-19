@@ -3,6 +3,7 @@ package com.tavin.dsvendas_api.service.client;
 import com.tavin.dsvendas_api.infra.models.ClientModel;
 import com.tavin.dsvendas_api.repositories.client.ClientRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
