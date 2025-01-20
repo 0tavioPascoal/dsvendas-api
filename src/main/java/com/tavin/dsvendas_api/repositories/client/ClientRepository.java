@@ -12,9 +12,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-public interface ClientRepository extends JpaRepository<ClientModel, UUID> {
-
-    Optional<ClientModel> findByNameAndCpf(String name, String cpf);
+public interface ClientRepository extends JpaRepository<ClientModel, Long> {
 
 
     @Query("select c from ClientModel c where upper(c.name) like upper(:name) and c.cpf like :cpf")

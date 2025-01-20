@@ -7,15 +7,14 @@ import com.tavin.dsvendas_api.infra.models.ClientModel;
 import com.tavin.dsvendas_api.repositories.client.ClientRepository;
 import com.tavin.dsvendas_api.service.client.ClientService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+
 import java.util.UUID;
-import java.util.stream.Collectors;
+
 
 @RestController
 @RequestMapping("/clients")
@@ -34,9 +33,9 @@ public class ClientController {
         return ResponseEntity.ok().body(clientMapper.ClientResponseMapper(client));
     }
     
-    @GetMapping("/{id}")
-    public ResponseEntity<ClientResponseDto> getClient(@RequestParam String id) {
-        return clientService.findByClientForId(UUID.fromString(id))
+    @GetMapping("{id}")
+    public ResponseEntity<ClientResponseDto> getClient(@PathVariable Long id) {
+        return clientService.findByClientForId(id)
                 .map(client -> {
                     return ResponseEntity.ok().body(clientMapper.ClientResponseMapper(client));
                 }).orElseGet(() -> ResponseEntity.notFound().build());
@@ -51,19 +50,19 @@ public class ClientController {
     }
 
     @DeleteMapping()
-    public ResponseEntity<Object> deleteClient( @RequestParam String id) {
-        return clientService.findByClientForId(UUID.fromString(id))
+    public ResponseEntity<Object> deleteClient( @RequestParam Long id) {
+        return clientService.findByClientForId(id)
                 .map(client -> {
-                    clientService.deleteByClientForId(UUID.fromString(id));
+                    clientService.deleteByClientForId(id);
                     return ResponseEntity.ok().build();
                 }).orElseGet(() -> ResponseEntity.notFound().build());
 
     }
 
     @PutMapping()
-    public ResponseEntity<Object> updateClient(@RequestParam String id,
+    public ResponseEntity<Object> updateClient(@RequestParam Long id,
                                                @RequestBody ClientRequestDto clientRequestDto) {
-        return clientService.findByClientForId(UUID.fromString(id))
+        return clientService.findByClientForId(id)
                 .map(client -> {
                     ClientModel clientAux = clientMapper.ClientModelMapper(clientRequestDto);
                     client.setName(clientAux.getName());
