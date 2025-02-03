@@ -4,6 +4,7 @@ package com.tavin.dsvendas_api.infra.models;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
@@ -20,6 +21,7 @@ import java.util.UUID;
 @Entity
 @Table(name = "tb_product")
 @Data
+@NoArgsConstructor
 @EntityListeners(AuditingEntityListener.class)
 public class ProductModel {
 
@@ -35,11 +37,9 @@ public class ProductModel {
 
     private String sku;
 
-    @JsonFormat(pattern = "dd/MM/yyyy")
     @CreatedDate
     private LocalDate created;
 
-    @JsonFormat(pattern = "dd/MM/yyyy")
     @LastModifiedDate
     private LocalDate modified;
 }
