@@ -17,12 +17,12 @@ public class ReportController {
 
     @GetMapping()
     public ResponseEntity<byte[]> getReport(
-            @RequestParam(value = "idClient", defaultValue = "0", required = false) Long idClient,
+            @RequestParam(value = "idClient", defaultValue = "", required = false) Long idClient,
             @RequestParam(value = "startDate", defaultValue = "", required = false) String startDate,
             @RequestParam(value = "finalDate", required = false, defaultValue = "") String finalDate
             ){
-        byte[] reports = reportService.generatedRelatorioVendas(idClient, startDate, finalDate);
 
+        byte[] reports = reportService.generatedRelatorioVendas(idClient, startDate, finalDate);
         HttpHeaders headers = new HttpHeaders();
         var filename = "relatorios-vendas.pdf";
         headers.setContentDispositionFormData("inline; filename=\"" +filename+ "\"", filename);

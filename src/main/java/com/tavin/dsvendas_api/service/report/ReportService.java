@@ -11,6 +11,9 @@ import javax.sql.DataSource;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -27,7 +30,15 @@ public class ReportService {
     public byte[] generatedRelatorioVendas(Long idClient, String finalDate, String startDate){
     try(Connection conn = dataSource.getConnection()){
       JasperReport jasperCompiled = JasperCompileManager.compileReport(resource.getInputStream());
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Date finalDateFormated = dateFormat.parse(startDate);
+        Date startDateFormated = dateFormat.parse(finalDate);
+
       Map<String, Object> parameters = new HashMap<>();
+      parameters.put("ID_CLIENT", idClient);
+      parameters.put("FINAL_DATE", finalDateFormated);
+      parameters.put("START_DATE", startDateFormated);
        JasperPrint print = JasperFillManager.fillReport(jasperCompiled, parameters, conn);
 
        return JasperExportManager.exportReportToPdf(print);
@@ -38,4 +49,7 @@ public class ReportService {
         throw new RuntimeException(e);
     } catch (IOException e) {
         throw new RuntimeException(e);
-    }}}
+    } catch (ParseException e) {
+        throw new RuntimeException(e);
+    }
+    }}
