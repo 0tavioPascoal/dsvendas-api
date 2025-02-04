@@ -5,10 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/reports")
@@ -19,8 +16,12 @@ public class ReportController {
     private final ReportService reportService;
 
     @GetMapping()
-    public ResponseEntity<byte[]> getReport() {
-        byte[] reports = reportService.generatedRelatorioVendas();
+    public ResponseEntity<byte[]> getReport(
+            @RequestParam(value = "idClient", defaultValue = "0", required = false) Long idClient,
+            @RequestParam(value = "startDate", defaultValue = "", required = false) String startDate,
+            @RequestParam(value = "finalDate", required = false, defaultValue = "") String finalDate
+            ){
+        byte[] reports = reportService.generatedRelatorioVendas(idClient, startDate, finalDate);
 
         HttpHeaders headers = new HttpHeaders();
         var filename = "relatorios-vendas.pdf";

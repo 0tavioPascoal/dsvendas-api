@@ -24,7 +24,7 @@ public class ReportService {
     @Value("classpath:reports/relatorio-vendas.jrxml")
     private Resource resource;
 
-    public byte[] generatedRelatorioVendas(){
+    public byte[] generatedRelatorioVendas(Long idClient, String finalDate, String startDate){
     try(Connection conn = dataSource.getConnection()){
       JasperReport jasperCompiled = JasperCompileManager.compileReport(resource.getInputStream());
       Map<String, Object> parameters = new HashMap<>();
