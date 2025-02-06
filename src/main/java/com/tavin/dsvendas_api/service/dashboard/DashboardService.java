@@ -4,8 +4,11 @@ import com.tavin.dsvendas_api.infra.models.DashboardModel;
 import com.tavin.dsvendas_api.repositories.client.ClientRepository;
 import com.tavin.dsvendas_api.repositories.product.ProductRepository;
 import com.tavin.dsvendas_api.repositories.sell.SellRepository;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDate;
 
 @Service
 @RequiredArgsConstructor
@@ -20,6 +23,12 @@ public class DashboardService {
         long productCount = productRepository.count();
         long clientCount = clientRepository.count();
 
-        return new DashboardModel(sellCount, productCount, clientCount);
+        var sellPerYear = sellRepository.GetSumPerMonth(LocalDate.now().getYear());
+
+
+        return new DashboardModel(productCount,sellPerYear, clientCount, sellCount);
     }
+
+
 }
+
