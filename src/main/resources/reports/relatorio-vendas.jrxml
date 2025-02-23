@@ -59,7 +59,7 @@ and v.created between  $P{START_DATE} and  $P{FINAL_DATE}
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Arial" size="14" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Relatorio de vendas]]></text>
+				<text><![CDATA[Sales report]]></text>
 			</staticText>
 			<textField pattern="M/d/yy">
 				<reportElement x="454" y="0" width="100" height="30" uuid="4a267055-0830-4338-b947-5be0bcfc407e"/>
@@ -77,7 +77,7 @@ and v.created between  $P{START_DATE} and  $P{FINAL_DATE}
 				<textElement>
 					<font size="12" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Código]]></text>
+				<text><![CDATA[ID]]></text>
 			</staticText>
 			<staticText>
 				<reportElement mode="Opaque" x="100" y="0" width="278" height="30" forecolor="#FFFFFF" backcolor="#A8A8A8" uuid="fbfefd30-7a0d-4f03-988f-e4e26b616154">
