@@ -8,6 +8,7 @@ import jakarta.transaction.Transactional;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.apache.coyote.Response;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,17 +18,12 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin(origins = "*")
 public class sellController {
 
-    private final SellRepository  sellRepository;
-
-    private final ItensSellsRepository itensSellsRepository;
+    private final SellService  sellService;
 
     @PostMapping
     @Transactional
     public ResponseEntity<String> sell(@RequestBody SellModel sellModel) {
-        sellRepository.save(sellModel);
-        sellModel.getItens().stream().forEach(itens -> itens.setSellModel(sellModel));
-        itensSellsRepository.saveAll(sellModel.getItens());
-        return ResponseEntity.ok().body("Sell Salvo com sucesso!");
+       return new ResponseEntity<>(sellService.CreateSell(sellModel), HttpStatus.OK);
     };
 
 }

@@ -9,6 +9,7 @@ import com.tavin.dsvendas_api.service.client.ClientService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,55 +23,33 @@ import org.springframework.web.bind.annotation.*;
 public class ClientController {
 
     private final ClientService clientService;
-    private final ClientMapper clientMapper;
-    private final ClientRepository clientRepository;
 
     @PostMapping()
-    public ResponseEntity<ClientResponseDto> addClient(@RequestBody ClientRequestDto clientRequestDto) {
-        ClientModel client = clientMapper.ClientModelMapper(clientRequestDto);
-        clientService.saveClient(client);
-        return ResponseEntity.ok().body(clientMapper.ClientResponseMapper(client));
+    public ResponseEntity<ClientModel> addClient(@RequestBody ClientRequestDto clientRequestDto) {
+       return new ResponseEntity<>(clientService.saveClient(clientRequestDto), HttpStatus.CREATED);
     }
     
     @GetMapping("{id}")
-    public ResponseEntity<ClientResponseDto> getClient(@PathVariable Long id) {
-        return clientService.findByClientForId(id)
-                .map(client -> {
-                    return ResponseEntity.ok().body(clientMapper.ClientResponseMapper(client));
-                }).orElseGet(() -> ResponseEntity.notFound().build());
+    public ResponseEntity<ClientModel> getClient(@PathVariable Long id) {
+        return new ResponseEntity<>(clientService.findByClientForId(id), HttpStatus.FOUND);
     }
 
     @GetMapping()
-    public Page<ClientResponseDto> getClients(@RequestParam(value = "name", defaultValue = "", required = false) String name,
+    public ResponseEntity<Page<ClientModel>> getClients(@RequestParam(value = "name", defaultValue = "", required = false) String name,
                                               @RequestParam(value = "cpf", required = false, defaultValue = "") String cpf,
                                               Pageable pageable) {
-        return  clientRepository.findByCpfAndName("%" + name +"%", "%" + cpf + "%", pageable)
-                .map(clientMapper::ClientResponseMapper);
+        return new ResponseEntity<>(clientService.findAll(pageable, name, cpf), HttpStatus.FOUND);
     }
 
     @DeleteMapping()
-    public ResponseEntity<Object> deleteClient( @RequestParam Long id) {
-        return clientService.findByClientForId(id)
-                .map(client -> {
-                    clientService.deleteByClientForId(id);
-                    return ResponseEntity.ok().build();
-                }).orElseGet(() -> ResponseEntity.notFound().build());
-
+    public ResponseEntity<Void> deleteClient( @RequestParam Long id) {
+            clientService.deleteByClientForId(id);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @PutMapping()
-    public ResponseEntity<Object> updateClient(@RequestParam Long id,
+    public ResponseEntity<ClientModel> updateClient(@RequestParam Long id,
                                                @RequestBody ClientRequestDto clientRequestDto) {
-        return clientService.findByClientForId(id)
-                .map(client -> {
-                    ClientModel clientAux = clientMapper.ClientModelMapper(clientRequestDto);
-                    client.setName(clientAux.getName());
-                    client.setEmail(clientAux.getEmail());
-                    client.setAddress(clientAux.getAddress());
-                    client.setBirthday(clientAux.getBirthday());
-                    client.setPhone(clientAux.getPhone());
-                    clientService.updatedClient(client);
-                    return ResponseEntity.noContent().build();
-                }).orElseGet(()->ResponseEntity.notFound().build());
+            return new ResponseEntity<>(clientService.updatedClient(id, clientRequestDto) ,HttpStatus.OK);
     }
 }
