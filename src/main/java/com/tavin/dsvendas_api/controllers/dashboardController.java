@@ -6,6 +6,7 @@ import com.tavin.dsvendas_api.repositories.product.ProductRepository;
 import com.tavin.dsvendas_api.repositories.sell.SellRepository;
 import com.tavin.dsvendas_api.service.dashboard.DashboardService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,7 +23,6 @@ public class dashboardController {
 
     @GetMapping()
     public ResponseEntity<DashboardModel> getDashboard() {
-        DashboardModel data = dashboardService.dataDashboard();
-        return ResponseEntity.ok(data);
+        return new ResponseEntity<>(dashboardService.dataDashboard(), HttpStatus.OK);
     }
 }
